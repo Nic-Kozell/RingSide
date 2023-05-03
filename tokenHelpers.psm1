@@ -2,9 +2,9 @@
 ################################################################################
 ##                              Helper Functions                              ##
 ################################################################################
-new-variable -scope script -name tokens -force
+new-variable -scope Global -name tokens -force
 
-$script:tokens = @{
+$Global:tokens = @{
     "aad-ode" = @{}
     "aad-dhsoha" = @{}
     "aad-odot" = @{}
@@ -31,7 +31,7 @@ function RefreshJwtToken {
         ResourceUri=$TenantInfo."$TenantAlias".ResourceUri
     }
     $Token = Get-GraphTokenCert @authParams
-    $script:tokens."$TenantAlias" =@{
+    $Global:tokens."$TenantAlias" =@{
         token_type = $token.token_type
         token_expires = ([DateTimeOffset]([DateTime]::UtcNow)).AddSeconds(3500).ToUnixTimeSeconds()
         access_token = $token.access_token
