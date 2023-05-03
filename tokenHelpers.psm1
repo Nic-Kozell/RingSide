@@ -26,7 +26,7 @@ function RefreshJwtToken {
     $authParams = @{
         TenantName=$TenantInfo."$TenantAlias".TenantName
         AppId=$TenantInfo."$TenantAlias".ClientId
-        vaultName=$vaultName
+        vaultName=$Global:vaultName
         CertName=$TenantInfo."$TenantAlias".CertName
         ResourceUri=$TenantInfo."$TenantAlias".ResourceUri
     }
