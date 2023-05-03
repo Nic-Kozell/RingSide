@@ -17,8 +17,8 @@ $script:tokens = @{
     "aad-gov" = @{}
 }
 function Epoch { ([DateTimeOffset]([DateTime]::UtcNow)).ToUnixTimeSeconds() }
-$TenantInfo = Get-Content '.\ringside\tenant_config_json.json' | ConvertFrom-Json
-Import-Module .\ringside\graphCertauth.psm1
+$TenantInfo = Get-Content '.\tenant_config_json.json' | ConvertFrom-Json
+Import-Module .\graphCertauth.psm1
 function RefreshJwtToken {
     param (
         [string]$TenantAlias
