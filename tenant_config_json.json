@@ -1,0 +1,72 @@
+{
+  "aad-oya" : {
+	  "TenantName": "oya.onmicrosoft.com",  
+    "TenantId": "ed20e773-9774-43f4-9113-0bc00d2cbf78",
+    "ClientId": "3b871fc3-8375-4062-bf8c-b89e5af5cdfd",
+    "CertName": "OYAB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-doc" : {
+  	"TenantName": "oregondoc.onmicrosoft.com",
+    "TenantId": "3f781cf3-3792-477b-abf5-ff27250dd659",
+    "ClientId": "c9f3a21a-37a9-4234-ba41-1208a7297d2f",
+    "CertName": "DOCB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-ode" : {
+    "TenantName": "odemail.onmicrosoft.com",
+	  "TenantId": "b4f51418-b269-49a2-935a-fa54bf584fc8",
+    "ClientId": "2cb5734a-3a0c-4dfc-8ea9-942a883ce9fe",
+    "CertName": "ODEB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-pers" : {
+    "TenantName": "OregonPERS.onmicrosoft.com",
+	  "TenantId": "860f660b-1578-45aa-8e77-aa9b68a0c0dd",
+    "ClientId": "e8e98ff2-d464-4dc8-adac-72022fcdc00c",
+    "CertName": "PERSB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-osp" : {
+    "TenantName": "osp.oregon.gov",
+	  "TenantId": "776738eb-4f9b-444f-bc33-4dd4e8e1a9b5",
+    "ClientId": "9d15701f-db80-4eb3-b8e9-43c1f983c51c",
+    "CertName": "OSPB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-dhsoha" : {
+    "TenantName": "odhsoha.oregon.gov",
+	  "TenantId": "658e63e8-8d39-499c-8f48-13adc9452f4c",
+    "ClientId": "1f5c57d6-bd4f-4074-9258-2205c441c51b",
+    "CertName": "DHSOHAB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-oregon" : {
+    "TenantName": "stateoforegon.onmicrosoft.com",
+	  "TenantId": "aa3f6932-fa7c-47b4-a0ce-a598cad161cf",
+    "ClientId": "70e8974d-4807-4841-a193-ec9a8c0070c7",
+    "CertName": "OregonB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-odot" : {
+    "TenantName": "ordot.onmicrosoft.com",
+	  "TenantId": "28b0d013-46bc-4a64-8d86-1c8a31cf590d",
+    "ClientId": "7b9b5670-14c5-4041-9e1e-9e681cbe32c6",
+    "CertName": "ODOTB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  },
+  "aad-gov" : {
+    "TenantName" : "oregoness.onmicrosoft.us",
+	  "TenantId": "a276ba90-5ec5-4241-baf6-ec133094cae9",
+    "ClientId": "9006aff9-8cf2-47fd-b70a-5f50e97df9a4",
+    "CertName": "GOVESSB2B",
+		"ResourceUri": "https://graph.microsoft.us/.default"
+  },
+  "aad-ess" : {
+	  "TenantName" : "oregoness.onmicrosoft.com",
+    "TenantId": "e495954f-d235-478c-8b23-e7b80fb0db3c",
+    "ClientId": "8e21de55-ec93-4b32-a3be-05712e61ff5d",
+    "CertName": "COMESSB2B",
+		"ResourceUri": "https://graph.microsoft.com/.default"
+  }
+}
