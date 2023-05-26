@@ -2,9 +2,8 @@
 ################################################################################
 ##                              Helper Functions                              ##
 ################################################################################
-new-variable -scope Global -name tokens -force
 
-$Global:tokens = @{
+$script:tokens = @{
     "aad-ode" = @{}
     "aad-dhsoha" = @{}
     "aad-odot" = @{}
@@ -26,12 +25,12 @@ function RefreshJwtToken {
     $authParams = @{
         TenantName=$TenantInfo."$TenantAlias".TenantName
         AppId=$TenantInfo."$TenantAlias".ClientId
-        vaultName=$Global:vaultName
+        vaultName=$vaultName
         CertName=$TenantInfo."$TenantAlias".CertName
         ResourceUri=$TenantInfo."$TenantAlias".ResourceUri
     }
     $Token = Get-GraphTokenCert @authParams
-    $Global:tokens."$TenantAlias" =@{
+    $script:tokens."$TenantAlias" =@{
         token_type = $token.token_type
         token_expires = ([DateTimeOffset]([DateTime]::UtcNow)).AddSeconds(3500).ToUnixTimeSeconds()
         access_token = $token.access_token
@@ -43,11 +42,11 @@ function IsTokenExpired {
         [string]$TenantAlias
     )
 
-    if (-not $tokens."$TenantAlias") {
+    if (-not $script:tokens."$TenantAlias") {
         throw "`$tokenInfo is null, Call RefreshJwtToken first."
     }
     # Check if it's good for more than the next ten seconds
-    return $tokens."$TenantAlias".token_expires -lt (Epoch - 10)
+    return $script:tokens."$TenantAlias".token_expires -lt (Epoch - 10)
 }
 
 function RefreshIfExpired {
@@ -56,7 +55,7 @@ function RefreshIfExpired {
         [string]$TenantAlias
     )
     # Get the token if you don't have one
-    if (-not $tokens."$TenantAlias") {
+    if (-not $script:tokens."$TenantAlias") {
         RefreshJwtToken $TenantAlias
     }
     # Refresh it if it's too old
@@ -65,27 +64,37 @@ function RefreshIfExpired {
     }
 }
 
-function WrapGraphCall {
-    [CmdletBinding()]
+function Invoke-GraphCall {
     param (
         [String]
         $TenantContext,
         $Method = 'GET',
-        $Uri
+        $Uri,
+        [object]$Headers,
+        [object]$Body,
+        [bool]$Force = $false
     )
-    begin {
-        $ctx = $TenantContext
-        RefreshIfExpired -TenantAlias $ctx
-        $token = $tokens."$ctx"
-        if($_ -eq 'aad-gov'){$graphEnv='USGov'}else{$graphEnv='Global'}
-        Connect-MgGraph -AccessToken $(ConvertTo-SecureString -String $token.access_token -AsPlainText -Force) -Environment $graphEnv
+    RefreshIfExpired $TenantContext 
+    if ($Method.toUpper() -eq 'DELETE' -and -not $uri.EndsWith('$ref') -and $Force -eq $False){
+        throw "`$ref was missing from the URI and would have deleted the user... let's try again shall we?"
     }
-    process {
-        $response = Invoke-MgGraphRequest -Method $Method -Uri $Uri
-    }
-    end{
-        return $response
-    }
+        # if((get-mgcontext).TenantId -ne $TenantInfo."$TenantContext".TenantId){
+            $token = $script:tokens."$TenantContext"
+            if($TenantContext -eq 'aad-gov'){$graphEnv='USGov'}else{$graphEnv='Global'}
+            $Graph = Connect-MgGraph -AccessToken $(ConvertTo-SecureString -String $token.access_token -AsPlainText -Force) -Environment $graphEnv
+            if($Graph -notmatch "^Welcome"){ 
+                Write-Warning "Unable to connect to graph $graph"
+                return
+            }
+        # }
+            $params = @{
+                Method = $Method
+                Uri = "$graphUri$Uri"
+                Body = $body ??= ''
+                Headers= $Headers ??= @{'Content-Type'='application/json'}
+            }
+            $response = Invoke-MgGraphRequest @params
+    return $response        
 }
 
 function DoWithRetry {
@@ -147,3 +156,4 @@ function DoWithRetry {
     }
 }
 #endregion Functions
+Export-ModuleMember -Function *
