@@ -16,7 +16,12 @@ $script:tokens = @{
     "aad-gov" = @{}
 }
 function Epoch { ([DateTimeOffset]([DateTime]::UtcNow)).ToUnixTimeSeconds() }
-$TenantInfo = Get-Content './tenant_config_json.json' | ConvertFrom-Json
+try {
+    $TenantInfo = Get-Content './tenant_config_json.json' | ConvertFrom-Json
+    }catch{
+        write-warning "Error getting tenant info $_"
+    }
+
 Import-Module ./graphCertauth.psm1
 function RefreshJwtToken {
     param (
