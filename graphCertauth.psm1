@@ -163,3 +163,5 @@ $PostSplat = @{
 $Request = Invoke-RestMethod @PostSplat
 return $Request
 }
+
+Export-ModuleMember -Function *
